@@ -288,9 +288,12 @@ exports.onConnect = function (io, socket) {
     const usersTurnsTaken = activeUser.turnsTaken + 1
     activeUser.turnsTaken = usersTurnsTaken
 
-    const everyoneHasGone =
-      room.users.filter((user) => user.turnsTaken !== usersTurnsTaken)
-        .length === 1
+    const playersWithLessTurnsTaken = room.users.filter(
+      (user) => user.turnsTaken !== usersTurnsTaken
+    )
+    const everyoneHasGone = room.humanQM
+      ? playersWithLessTurnsTaken.length === 1
+      : playersWithLessTurnsTaken.length === 0
 
     if (everyoneHasGone) {
       const currentState = _room.state
