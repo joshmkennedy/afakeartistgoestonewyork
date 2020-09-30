@@ -4,6 +4,7 @@ import { useQuery } from '@redwoodjs/web'
 import create from 'zustand'
 import produce from 'immer'
 import socketIOClient from 'socket.io-client'
+import { COLORS } from 'src/config'
 
 const ROOM = gql`
   query ROOM($name: String!) {
@@ -39,7 +40,7 @@ export function useConnectSocket(url) {
 
   return { socket }
 }
-
+const randomColor = genRandomColor()
 //Global store
 export const useGameStore = create((set) => ({
   socket: null,
@@ -55,6 +56,7 @@ export const useGameStore = create((set) => ({
     inRoom: false,
     userName: '',
     isOwner: false,
+    userColor: randomColor,
   },
   set: (fn) => set(produce(fn)),
 }))
@@ -109,4 +111,7 @@ export function useSetupGame(socket, room) {
   }, [set, currentUser])
 }
 
-//TODO write function enterRoom(room:roomId, userInformation:{userName})
+function genRandomColor() {
+  const randomIndex = Math.floor(Math.random() * COLORS.length)
+  return COLORS[randomIndex]
+}

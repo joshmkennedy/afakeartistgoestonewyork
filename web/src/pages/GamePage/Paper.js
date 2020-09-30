@@ -5,6 +5,7 @@ import { useGameStore } from 'src/hooks/hooks'
 export default function Paper({ socket, activeUser, userInformation, room }) {
   const [isDrawing, setIsDrawing] = useState(false)
   const gameState = useGameStore((state) => state.gameState)
+  const userColor = useGameStore((state) => state.userInformation.userColor)
   const drawingArea = useRef()
   const [lines, setLines] = useState([])
   const submitLines = (socket, userInformation, lines, room) => {
@@ -53,7 +54,7 @@ export default function Paper({ socket, activeUser, userInformation, room }) {
         onMouseDown={(e) => {
           setIsDrawing(true)
           const point = createRelativePoint(e)
-          setLines([...lines, [point]])
+          setLines([...lines, { color: userColor, points: [point] }])
         }}
         onMouseMove={(e) => {
           if (!isDrawing) return
@@ -64,7 +65,7 @@ export default function Paper({ socket, activeUser, userInformation, room }) {
               (_, index) => index !== prevState.length - 1
             )
             const point = createRelativePoint(e)
-            lastLine.push(point)
+            lastLine.points.push(point)
             const newState = [...finishedLines, lastLine]
             return newState
           })
@@ -92,11 +93,11 @@ export default function Paper({ socket, activeUser, userInformation, room }) {
 }
 
 const DrawingLine = ({ line }) => {
-  const pathData = `M ${line.map((p) => `${p.x} ${p.y}`).join(' L ')}`
+  const pathData = `M ${line.points.map((p) => `${p.x} ${p.y}`).join(' L ')}`
   return (
     <path
       d={pathData}
-      stroke={`black`}
+      stroke={line.color}
       fill={`none`}
       strokeWidth={`20px`}
     ></path>
