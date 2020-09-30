@@ -294,7 +294,7 @@ exports.onConnect = function (io, socket) {
     const everyoneHasGone = room.humanQM
       ? playersWithLessTurnsTaken.length === 1
       : playersWithLessTurnsTaken.length === 0
-
+    console.log({ qMType: room.humanQM, playersWithLessTurnsTaken })
     if (everyoneHasGone) {
       const currentState = _room.state
       if (currentState === DRAWING_2) {

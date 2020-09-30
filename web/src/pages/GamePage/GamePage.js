@@ -120,7 +120,8 @@ const GamePage = ({ roomId }) => {
       </MainLayout>
     )
   }
-  if (gameState === 'EXPOSE' && winners) navigate(routes.expose({ roomId }))
+
+  if (gameState === 'EXPOSE' && winners) navigate(routes.reveal({ roomId }))
   return (
     <MainLayout>
       <div>
