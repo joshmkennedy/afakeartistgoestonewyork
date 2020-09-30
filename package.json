@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "api",
+      "web",
+      "sockets"
+    ]
+  },
+  "devDependencies": {
+    "@redwoodjs/core": "^0.19.1"
+  },
+  "eslintConfig": {
+    "extends": "@redwoodjs/eslint-config"
+  },
+  "engines": {
+    "node": ">=12",
+    "yarn": ">=1.15"
+  },
+  "scripts": {
+    "sockets": "yarn workspace sockets node .",
+    "start": "yarn sockets"
+  }
+}

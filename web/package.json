@@ -1,0 +1,32 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "browserslist": {
+    "development": [
+      "last 1 version"
+    ],
+    "production": [
+      "defaults",
+      "not IE 11",
+      "not IE_Mob 11"
+    ]
+  },
+  "dependencies": {
+    "@redwoodjs/auth": "^0.19.1",
+    "@redwoodjs/forms": "^0.19.1",
+    "@redwoodjs/router": "^0.19.1",
+    "@redwoodjs/web": "^0.19.1",
+    "framer-motion": "^2.7.6",
+    "immer": "^7.0.9",
+    "netlify-identity-widget": "^1.9.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "socket.io-client": "^2.3.0",
+    "styled-components": "^5.2.0",
+    "zustand": "^3.1.3"
+  }
+}
