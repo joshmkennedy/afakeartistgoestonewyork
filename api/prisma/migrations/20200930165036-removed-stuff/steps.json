@@ -1,0 +1,19 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteModel",
+      "model": "User"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Room",
+      "field": "active"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Room",
+      "field": "userCount"
+    }
+  ]
+}
