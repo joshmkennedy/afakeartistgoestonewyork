@@ -180,6 +180,9 @@ main{
   box-shadow: var(--shadow-md);
   background: var(--grey-200);
   padding:20px;
+  h3{
+    margin-top:0;
+  }
 }
 
 .side-by-side{
@@ -190,7 +193,11 @@ main{
   }
 }
 .paper{
-  max-width:600px;
+  max-width: 500px;
+  width:500px;
+  min-width: 500px;
+  min-height: 500px;
+  height: 500px;
 }
 .top-right{
   position: absolute;
@@ -215,4 +222,15 @@ main{
 .flex{
 display: flex;
 
+}
+.tag{
+  font-size: 12px;
+      letter-spacing: 1px;
+      display: inline-block;
+      background-color: var(--grey-500);
+
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 0px 5px;
+      color: var(--grey-700);
 }

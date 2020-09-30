@@ -20,7 +20,7 @@ const GamePage = ({ roomId }) => {
   const set = useGameStore((state) => state.set)
   const userInformation = useGameStore((state) => state.userInformation)
 
-  const { userRole } = userInformation
+  const { userRole, userColor } = userInformation
 
   const activeUser = useGameStore((state) => state.activeUser)
   const gameState = useGameStore((state) => state.gameState)
@@ -34,7 +34,6 @@ const GamePage = ({ roomId }) => {
         set((state) => {
           state.userInformation.inRoom = true
           state.userInformation.userId = newUser.userId
-          state.userInformation.userId = newUser.userId
 
           state.gameState = gameState
         })
@@ -42,6 +41,7 @@ const GamePage = ({ roomId }) => {
 
       socket.on('new_users', (data) => {
         const { userList } = JSON.parse(data)
+        console.log(userList)
         set((state) => {
           state.allUsers = [...userList]
         })
@@ -125,15 +125,20 @@ const GamePage = ({ roomId }) => {
   return (
     <MainLayout>
       <div>
-        <h1>{userInformation.userName}</h1>
-        <h3>{userRole && userRole}</h3>
-
-        <GameBody>
-          <div>
-            <CategoryInfoCard socket={socket} />
+        <GameLayout userColor={userColor}>
+          <div className="game-header card">
+            <div>
+              <span className="tag">username</span>
+              <h1>{userInformation.userName}</h1>
+            </div>
+            <div>
+              <span className="tag">user role</span>
+              <h3>{userRole && userRole}</h3>
+            </div>
           </div>
+          <CategoryInfoCard socket={socket} />
 
-          <div className="side-by-side align-end">
+          <div className="game-body side-by-side align-end">
             <UserList socket={socket} flatRight />
             <Paper
               {...{
@@ -144,7 +149,7 @@ const GamePage = ({ roomId }) => {
               }}
             />
           </div>
-        </GameBody>
+        </GameLayout>
         {gameState === 'VOTING' && <VotingForm socket={socket} />}
       </div>
     </MainLayout>
@@ -153,12 +158,51 @@ const GamePage = ({ roomId }) => {
 
 export default GamePage
 
-const GameBody = styled.div`
+const GameLayout = styled.div`
+  --user-color: ${({ userColor }) => (userColor ? userColor : `var(--blue)`)};
   display: grid;
   width: 100%;
-  grid-template-columns: 250px 1fr;
-  column-gap: 20px;
-  > div {
-    width: 100%;
+  gap: 10px;
+  .align-end {
+    justify-content: center;
+  }
+  .game-header {
+    & > div span {
+    }
+    h1 {
+      margin-top: 0;
+    }
+    h3 {
+      margin-bottom: 0;
+      margin-top: 4px;
+    }
+    h3 {
+      color: ${({ userColor }) => userColor};
+      font-size: 1.75rem;
+      margin-bottom: 0;
+    }
+    h1 {
+      margin-top: 0;
+      background: var(--gradient);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-box-decoration-break: clone;
+      box-box-decoration-break: clone;
+
+      font-size: 3rem;
+    }
+  }
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    .game-header {
+      grid-column: 1/2;
+    }
+    ${CategoryInfoCard} {
+      grid-column: 2/-1;
+      margin: 0;
+    }
+    .game-body {
+      grid-column: 1/-1;
+    }
   }
 `

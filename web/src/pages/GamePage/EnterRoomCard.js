@@ -25,7 +25,7 @@ function EnterRoomCard({ socket, className }) {
       'enter_room',
       JSON.stringify({
         room: roomId,
-        userInformation: { userName },
+        userInformation: { userName, userColor },
       })
     )
   }

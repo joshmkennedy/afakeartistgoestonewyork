@@ -9,6 +9,7 @@ function CategoryInfoCard({ className, socket }) {
   const { userRole } = useGameStore((state) => state.userInformation)
   return (
     <div className={`card ${className}`}>
+      <h3>Word To Draw</h3>
       {userRole === 'QUESTION_MASTER' && gameState === 'PICKING_WORD' && (
         <CategoryDropdown socket={socket} />
       )}
@@ -16,17 +17,17 @@ function CategoryInfoCard({ className, socket }) {
       {(category || userRole !== 'QUESTION_MASTER') && (
         <>
           <div>
-            Category:
-            <span style={{ color: 'var(--green)' }}>
+            <span className="tag">Category</span>
+            <div style={{ color: 'var(--green)', fontSize: `1.5rem` }}>
               {category ? category : 'being picked'}
-            </span>
+            </div>
           </div>
           {category && (
             <div>
-              Word:
-              <span style={{ color: 'var(--blue)', fontSize: '1.34em' }}>
+              <span className="tag">Picked Word</span>
+              <div style={{ color: 'var(--blue)', fontSize: '2rem' }}>
                 {pickedWord ? pickedWord : 'being generated'}
-              </span>
+              </div>
             </div>
           )}
         </>
@@ -35,5 +36,5 @@ function CategoryInfoCard({ className, socket }) {
   )
 }
 export default styled(CategoryInfoCard)`
-  background: var(--grey-100);
+  margin-bottom: 10px;
 `

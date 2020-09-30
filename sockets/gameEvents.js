@@ -156,13 +156,17 @@ exports.onConnect = function (io, socket) {
 
     socket.join(newUser.room)
     const userList = room.users.map((user) => {
-      return { id: user.userId, name: user.userName }
+      return { id: user.userId, name: user.userName, color: user.color }
     })
+    console.log(userList)
     const state = _room ? _room.state : WAITING
     socket.emit(
       'enter_lobby',
       JSON.stringify({
-        newUser: { userId: newUser.userId, userName: newUser.userName },
+        newUser: {
+          userId: newUser.userId,
+          userName: newUser.userName,
+        },
         state,
       })
     )

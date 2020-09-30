@@ -71,6 +71,8 @@ class User {
     this.userName = userInformation.userName
     this.role = null
     this.turnsTaken = 0
+    this.color = userInformation.userColor
+    console.log(userInformation.userColor)
   }
 }
 
