@@ -252,7 +252,7 @@ exports.onConnect = function (io, socket) {
       const message =
         user.role === DEFAULT || user.role === QUESTION_MASTER
           ? { pickedWord }
-          : { pickedWord: 'X' }
+          : { pickedWord: 'Unknown' }
       user.socket.emit('picked_word', JSON.stringify(message))
     })
     sendEvent('word_generated', { io, socket, data })

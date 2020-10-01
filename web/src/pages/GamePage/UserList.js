@@ -76,9 +76,9 @@ function UserList({ className, socket }) {
   )
 }
 export default styled(UserList)`
-  max-width: 250px;
-  min-width: 200px;
-
+  min-width: 170px;
+  max-width: 435px;
+  width: 100%;
   margin: ${({ flatRight }) => (flatRight ? `0` : `0 auto`)};
   @media (min-width: 950px) {
     margin: ${({ flatRight }) => (flatRight ? `0 0 0 auto` : `0 auto`)};

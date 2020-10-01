@@ -10,7 +10,7 @@ import { WEBSOCKET_URL } from 'src/config'
 import UserList from './UserList.js'
 import Lobby from './Lobby'
 import VotingForm from './VotingForm'
-import CategoryInfoCard from './CategoryInfoCard'
+import InfoCard from './InfoCard'
 import Paper from './Paper'
 
 const GamePage = ({ roomId }) => {
@@ -18,9 +18,9 @@ const GamePage = ({ roomId }) => {
   useSetupGame(socket, roomId)
 
   const set = useGameStore((state) => state.set)
-  const userInformation = useGameStore((state) => state.userInformation)
 
-  const { userRole, userColor } = userInformation
+  const userInformation = useGameStore((state) => state.userInformation)
+  const { userColor } = userInformation
 
   const activeUser = useGameStore((state) => state.activeUser)
   const gameState = useGameStore((state) => state.gameState)
@@ -123,36 +123,30 @@ const GamePage = ({ roomId }) => {
 
   if (gameState === 'EXPOSE' && winners) navigate(routes.reveal({ roomId }))
   return (
-    <MainLayout>
-      <div>
-        <GameLayout userColor={userColor}>
-          <div className="game-header card">
-            <div>
-              <span className="tag">username</span>
-              <h1>{userInformation.userName}</h1>
-            </div>
-            <div>
-              <span className="tag">user role</span>
-              <h3>{userRole && userRole}</h3>
-            </div>
+    <GameLayoutWrapper>
+      <GameLayout userColor={userColor}>
+        <div className="game-header">
+          <div>
+            <span className="tag">player</span>
+            <h1>{userInformation.userName}</h1>
           </div>
-          <CategoryInfoCard socket={socket} />
+        </div>
+        <InfoCard socket={socket} />
 
-          <div className="game-body side-by-side align-end">
-            <UserList socket={socket} flatRight />
-            <Paper
-              {...{
-                room: roomId,
-                socket,
-                userInformation,
-                activeUser,
-              }}
-            />
-          </div>
-        </GameLayout>
-        {gameState === 'VOTING' && <VotingForm socket={socket} />}
-      </div>
-    </MainLayout>
+        <div className="game-body side-by-side align-end">
+          <UserList socket={socket} flatRight />
+          <Paper
+            {...{
+              room: roomId,
+              socket,
+              userInformation,
+              activeUser,
+            }}
+          />
+        </div>
+      </GameLayout>
+      {gameState === 'VOTING' && <VotingForm socket={socket} />}
+    </GameLayoutWrapper>
   )
 }
 
@@ -163,46 +157,60 @@ const GameLayout = styled.div`
   display: grid;
   width: 100%;
   gap: 10px;
+  ${InfoCard} {
+    max-height: 160px;
+  }
   .align-end {
     justify-content: center;
   }
   .game-header {
-    & > div span {
-    }
     h1 {
-      margin-top: 0;
-    }
-    h3 {
-      margin-bottom: 0;
-      margin-top: 4px;
+      margin: 0;
+      background: var(--gradient);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      font-size: 3rem;
     }
     h3 {
       color: ${({ userColor }) => userColor};
       font-size: 1.75rem;
+      margin-top: 4px;
       margin-bottom: 0;
     }
-    h1 {
-      margin-top: 0;
-      background: var(--gradient);
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
-      -webkit-box-decoration-break: clone;
-      box-box-decoration-break: clone;
-
-      font-size: 3rem;
-    }
   }
-  @media (min-width: 600px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (min-width: 700px) {
+    grid-template-columns: 1fr 500px;
     .game-header {
       grid-column: 1/2;
     }
-    ${CategoryInfoCard} {
-      grid-column: 2/-1;
-      margin: 0;
+    ${InfoCard} {
+      grid-column: 2/3;
     }
     .game-body {
       grid-column: 1/-1;
     }
   }
+  @media (min-width: 1000px) {
+    grid-template-columns: 1fr 750px;
+    .game-header {
+      grid-column: 1/-1;
+    }
+    ${InfoCard} {
+      grid-column: 1/2;
+      grid-row: 2/3;
+      margin: 0;
+      max-height: unset;
+    }
+    .game-body {
+      grid-column: 2/-1;
+      grid-row: 2/3;
+      width: 100%;
+    }
+  }
+`
+const GameLayoutWrapper = styled.div`
+  padding: 20px 10px;
 `

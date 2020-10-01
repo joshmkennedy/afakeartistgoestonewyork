@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import _ from 'lodash'
 import { useGameStore } from 'src/hooks/hooks'
+import styled from 'styled-components'
 
-export default function Paper({ socket, activeUser, userInformation, room }) {
+function Paper({ socket, activeUser, userInformation, room, className }) {
   const [isDrawing, setIsDrawing] = useState(false)
-  const gameState = useGameStore((state) => state.gameState)
+  const { category, pickedWord } = useGameStore((state) => state.words)
   const userColor = useGameStore((state) => state.userInformation.userColor)
   const drawingArea = useRef()
   const [lines, setLines] = useState([])
@@ -41,11 +42,11 @@ export default function Paper({ socket, activeUser, userInformation, room }) {
   }
   return (
     <div
-      className="paper card"
+      className={`paper card ${className}`}
       style={{
         background: `white`,
-        boxShadow: `var(--shadow-xl)`,
         border: `3px solid var(--blue)`,
+        borderLeftColor: `#85A8DB`,
         borderRadius: `0px 10px 10px 0px`,
       }}
     >
@@ -85,12 +86,30 @@ export default function Paper({ socket, activeUser, userInformation, room }) {
           <DrawingLine key={id} line={line} />
         ))}
       </svg>
-      <div className="top-right" style={{ color: `var(--blue)` }}>
-        {gameState}
+      <div className="top-right pickedWord" style={{ color: `var(--blue)` }}>
+        <div style={{ display: `flex`, justifyContent: `start` }}>
+          <div style={{ color: `var(--grey-700)`, marginRight: `10px` }}>
+            Category:{' '}
+          </div>
+          {category}
+        </div>
+        <div style={{ display: `flex`, justifyContent: `start` }}>
+          <div style={{ color: `var(--grey-700)`, marginRight: `10px` }}>
+            Word:{' '}
+          </div>
+          <span>{pickedWord}</span>
+        </div>
       </div>
     </div>
   )
 }
+
+export default styled(Paper)`
+  .pickedWord {
+    max-width: 135px;
+    width: 100%;
+  }
+`
 
 const DrawingLine = ({ line }) => {
   const pathData = `M ${line.points.map((p) => `${p.x} ${p.y}`).join(' L ')}`
@@ -99,7 +118,9 @@ const DrawingLine = ({ line }) => {
       d={pathData}
       stroke={line.color}
       fill={`none`}
-      strokeWidth={`20px`}
+      strokeWidth={`5px`}
+      strokeLinejoin="round"
+      strokeLinecap="round"
     ></path>
   )
 }

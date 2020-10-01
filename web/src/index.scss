@@ -19,7 +19,7 @@
   --blue: #2D73DB;
   --dark-green:#088E97;
   --green:#09A0AA;
-  --light-green:#EBF4F4;
+  --light-green:rgb(208, 230, 230);
   --black:#333;
   --grey-100: #f7fafc;
   --grey-200: #edf2f7;
@@ -86,6 +86,7 @@ input[type="search"] {
   }
 }
 button {
+  cursor: pointer;
   white-space: nowrap;
   background: var(--blue);
   &.secondary{
@@ -227,7 +228,7 @@ display: flex;
   font-size: 12px;
       letter-spacing: 1px;
       display: inline-block;
-      background-color: var(--grey-500);
+      background-color: var(--light-green);
 
       text-transform: uppercase;
       border-radius: 4px;

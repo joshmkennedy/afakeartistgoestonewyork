@@ -18,6 +18,7 @@
     "yarn": ">=1.15"
   },
   "scripts": {
+    "dev":"yarn rw dev",
     "sockets": "yarn workspace sockets node .",
     "start": "yarn sockets"
   }
