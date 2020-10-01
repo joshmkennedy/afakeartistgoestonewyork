@@ -48,6 +48,7 @@ function Paper({ socket, activeUser, userInformation, room, className }) {
         border: `3px solid var(--blue)`,
         borderLeftColor: `#85A8DB`,
         borderRadius: `0px 10px 10px 0px`,
+        padding: 0,
       }}
     >
       <svg
@@ -86,7 +87,10 @@ function Paper({ socket, activeUser, userInformation, room, className }) {
           <DrawingLine key={id} line={line} />
         ))}
       </svg>
-      <div className="top-right pickedWord" style={{ color: `var(--blue)` }}>
+      <div
+        className="top-right pickedWord"
+        style={{ color: `var(--blue)`, pointerEvents: 'none' }}
+      >
         <div style={{ display: `flex`, justifyContent: `start` }}>
           <div style={{ color: `var(--grey-700)`, marginRight: `10px` }}>
             Category:{' '}

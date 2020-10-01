@@ -85,7 +85,7 @@ export default styled(UserList)`
   }
 
   border-radius: ${({ flatRight }) =>
-    flatRight ? '10px 0px 0px 10px' : '10px'};
+    flatRight ? '10px 0px 0px 10px' : '10px'}!important;
   padding: 20px 5px;
   li {
     font-size: 20px;

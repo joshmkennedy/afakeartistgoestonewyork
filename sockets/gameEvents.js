@@ -27,6 +27,9 @@ exports.onConnect = function (io, socket) {
         enter_room: addNewUserToRoom,
         start_game: startGame,
       },
+      immediate: () => {
+        console.log('went to WAITING')
+      },
     },
     GENERATE_ROLES: {
       on: {},
@@ -44,6 +47,7 @@ exports.onConnect = function (io, socket) {
         new_lines_added: newLinesAdded,
         end_turn: endTurn,
       },
+      immediate: () => console.log('in drawing'),
     },
     DRAWING_2: {
       on: {
@@ -251,8 +255,8 @@ exports.onConnect = function (io, socket) {
     room.users.forEach((user) => {
       const message =
         user.role === DEFAULT || user.role === QUESTION_MASTER
-          ? { pickedWord }
-          : { pickedWord: 'Unknown' }
+          ? { pickedWord, category }
+          : { pickedWord: 'Unknown', category }
       user.socket.emit('picked_word', JSON.stringify(message))
     })
     sendEvent('word_generated', { io, socket, data })

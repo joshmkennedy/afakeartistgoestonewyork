@@ -3,6 +3,7 @@ import _ from 'lodash'
 import styled from 'styled-components'
 import { useConnectSocket, useSetupGame, useGameStore } from 'src/hooks/hooks'
 import { navigate, routes } from '@redwoodjs/router'
+import { useFlash } from '@redwoodjs/web'
 
 import MainLayout from 'src/layouts/MainLayout/MainLayout'
 import { WEBSOCKET_URL } from 'src/config'
@@ -23,8 +24,11 @@ const GamePage = ({ roomId }) => {
   const { userColor } = userInformation
 
   const activeUser = useGameStore((state) => state.activeUser)
+  const { category, pickedWord } = useGameStore((state) => state.words)
   const gameState = useGameStore((state) => state.gameState)
   const winners = useGameStore((state) => state.winners)
+
+  const { addMessage } = useFlash()
 
   useEffect(() => {
     if (socket) {
@@ -74,10 +78,14 @@ const GamePage = ({ roomId }) => {
         })
       })
       socket.on('picked_word', (data) => {
-        const { pickedWord } = JSON.parse(data)
+        const { pickedWord, category } = JSON.parse(data)
         set((state) => {
           state.words.pickedWord = pickedWord
         })
+        addMessage(
+          `The Word to try and draw is ${pickedWord} in the Category is ${category}`,
+          { classes: 'large' }
+        )
       })
       socket.on('turn_ended', (_) => {
         console.log('Need to Write a function for turn_ended')
